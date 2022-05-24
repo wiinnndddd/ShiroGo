@@ -94,7 +94,8 @@ const styles = StyleSheet.create({
     alignItems :'center',
   },
   inputContainer:{
-    width:'80%'
+    width:'80%',
+    marginTop: 150,
   },
   input:{
     backgroundColor:'white',
@@ -106,20 +107,22 @@ const styles = StyleSheet.create({
   buttonContainer:{
     width:'60%',
     justifyContent:'center',
-    alignItems: 'center',
-    marginTop:40,    
+    // alignItems: 'center',
+    marginTop:50,    
   },
   button:{
     backgroundColor: '#0782F9',
     width: '100%',
     padding: 15,
     borderRadius: 10,
-    alignItem: 'center',
+    // alignItem: 'center',
+    
   },
   buttonText:{
     color: 'white',
     fontWeight: '700',
     fontSize: 16,
+    textAlign: 'center'
   },
   buttonOutline:{
     backgroundColor: 'white',
@@ -132,5 +135,6 @@ const styles = StyleSheet.create({
     color: '#0782F9',
     fontWeight: '700',
     fontSize: 16,
+    textAlign: 'center'
   },
 })
