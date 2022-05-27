@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "956064572921",
+    "firebase_url": "https://shirogo-2ecd4-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "shirogo-2ecd4",
+    "storage_bucket": "shirogo-2ecd4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956064572921:android:af7b32ba5fb1c778e74928",
+        "android_client_info": {
+          "package_name": "com.ShiroGo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956064572921-1mt4n4p87nv83si7i9nuqpvjm1ur6h0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ShiroGo",
+            "certificate_hash": "5e0be503bfba15a1cc56e5b1bcd6735086e75a95"
+          }
+        },
+        {
+          "client_id": "956064572921-etn7flun1gp0bii31ifmo9eg9jhljgu7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAon8yts_pTPdI5uyAIv0iH332aBjoj7LY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956064572921-etn7flun1gp0bii31ifmo9eg9jhljgu7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

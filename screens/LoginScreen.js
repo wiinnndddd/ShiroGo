@@ -1,100 +1,134 @@
-import {TouchableOpacity,KeyboardAvoidingView,TextInput, StyleSheet, Text, View } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {auth} from '../firebase';
-import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, StyleSheet, Text, View, TextInput } from 'react-native'
+import React, {useState, useEffect} from 'react'
+
+import { getDatabase, ref, set, update} from "firebase/database"
+import { auth} from '../firebase'
+import {  useNavigation } from '@react-navigation/native'
+import { Pedometer } from 'expo-sensors'
 
 
-const LoginScreen = () => {
+
+const HomeScreen = () => {
+  const [walletID, setWalletID] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
+  const [stepCount, setStepCount] = useState(0)
   const navigation = useNavigation()
+  const db = getDatabase()
 
-  useEffect (()=> {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Home")
+
+  const [PedometerAvailability, setPedometerAvailability] = useState("");
+
+  
+
+  const subscribe = () => {
+    const subscription = Pedometer.watchStepCount((result)=>{
+      this.setStepCount(result)
+    })
+
+
+    Pedometer.isAvailableAsync().then(
+      (result) => {
+        setPedometerAvailability(String(result))
+      } ,
+      (error) => {
+        setPedometerAvailability(error)
       }
-    })
-    return unsubscribe
-  }, []
-  )
-
-
-
-  const handleSignUp = () => {
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(userCredentials =>{
-      const user = userCredentials.user;
-      console.log('Registered with:',user.email);
-    })
-    .catch(error=> alert(error.message))
+    )
   }
 
-  const handleLogin = () => {
-    auth
-    .signInWithEmailAndPassword(email, password)
-    .then(userCredentials => {
-      const user = userCredentials.user;
-      console.log('logged in with :', user.email);
+
+
+  const handleWalletID = () => {
+    
+    if(walletID!= ''){
+      var today = Math.round((new Date()).getTime() / 1000);
+      setEmail(auth.currentUser?.email)
+      update(ref(db, 'users/' + 'b'), {
+      user_id: 'b',
+      num_steps : 5,
+      update_time: today,
+      wallet_id: walletID,
+    }).then(()=>{
+      alert("wallet ID updated Successfully");
+    }).catch((error) => {
+      alert(error);
+    });
+    }
+    
+
+  }
+  const handleSignOut = () =>{
+    auth.signOut()
+    .then(()=> {
+      navigation.replace("Login")
     })
     .catch(error =>alert(error.message))
   }
-
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior="padding"
-    >
+    <View style = {styles.container}>
+      <View
+        style={styles.stepContainer}>
+          <Text>Is pedometer : {PedometerAvailability}</Text>
+
+      </View>
+      <View
+        style={styles.stepContainer}>
+          <Text>Step Count : {stepCount}</Text>
+
+      </View>
+      <Text>Email : {auth.currentUser?.email}</Text>
       <View style={styles.inputContainer}>
         <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={text => setEmail(text)}
+        placeholder="Wallet Address"
+        value={walletID}
+        onChangeText={text => setWalletID(text)}
         style={styles.input}
-        />
-        <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={text =>setPassword(text)}
-        style={styles.input}
-        secureTextEntry
         />
 
 
       </View>
-      
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity
-        onPress={handleLogin}
-        style={styles.button}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-        onPress={handleSignUp}
-        style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
+      <TouchableOpacity
+      onPress = {handleWalletID}
+      style={styles.button}>
+        <Text style={styles.buttonText}>Submit</Text>
 
-      </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+      onPress = {handleSignOut}
+      style={styles.button}>
+        <Text style={styles.buttonText}>Sign Out</Text>
 
-    </KeyboardAvoidingView>
+      </TouchableOpacity>
+    </View>
   )
 }
 
-export default LoginScreen
+export default HomeScreen
 
 const styles = StyleSheet.create({
   container :{
     flex: 1,
-    justifyContent:'center',
-    alignItems :'center',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  button :{
+    backgroundColor: "#0782F9",
+    width : '60%',
+    padding :15,
+    borderRadius:10,
+    // alignItems:'center',
+    
+    marginTop: 40,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 17,
+    textAlign:'center',
   },
   inputContainer:{
-    width:'80%'
+    width:'80%',
+    marginTop: 40,
   },
   input:{
     backgroundColor:'white',
@@ -103,34 +137,5 @@ const styles = StyleSheet.create({
     borderRadius:10,
     marginTop:5,
   },
-  buttonContainer:{
-    width:'60%',
-    justifyContent:'center',
-    alignItems: 'center',
-    marginTop:40,    
-  },
-  button:{
-    backgroundColor: '#0782F9',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItem: 'center',
-  },
-  buttonText:{
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  buttonOutline:{
-    backgroundColor: 'white',
-    marginTop: 5,
-    borderColor: '#0782F9',
-    borderWidth: 2,
-    
-  },
-  buttonOutlineText:{
-    color: '#0782F9',
-    fontWeight: '700',
-    fontSize: 16,
-  },
 })
+
