@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
   },
   inputContainer:{
     width:'80%',
-    marginTop: 40,
+    marginTop: 150,
+
   },
   input:{
     backgroundColor:'white',
@@ -137,5 +138,38 @@ const styles = StyleSheet.create({
     borderRadius:10,
     marginTop:5,
   },
-})
 
+  buttonContainer:{
+    width:'60%',
+    justifyContent:'center',
+    // alignItems: 'center',
+    marginTop:50,    
+  },
+  button:{
+    backgroundColor: '#0782F9',
+    width: '100%',
+    padding: 15,
+    borderRadius: 10,
+    // alignItem: 'center',
+    
+  },
+  buttonText:{
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
+    textAlign: 'center'
+  },
+  buttonOutline:{
+    backgroundColor: 'white',
+    marginTop: 5,
+    borderColor: '#0782F9',
+    borderWidth: 2,
+    
+  },
+  buttonOutlineText:{
+    color: '#0782F9',
+    fontWeight: '700',
+    fontSize: 16,
+    textAlign: 'center'
+  },
+})
