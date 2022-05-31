@@ -1,14 +1,16 @@
 import { StyleSheet, Text, View, Dimensions,Image, TouchableOpacity } from 'react-native'
 import React, {useState, useEffect,Component} from 'react'
-import { useNavigation } from '@react-navigation/native';
 import * as GoogleSignIn from 'expo-google-sign-in';
-import Expo from 'expo';
+import {  useNavigation } from '@react-navigation/native'
 
 
 const { width, height } = Dimensions.get('window');
 
 class WelcomeScreen extends Component {
   
+  constructor(props) {
+    super(props);
+ }
   // navigation = useNavigation()
 
   // const [loggedIn, setloggedIn] = useState(false);
@@ -46,6 +48,7 @@ class WelcomeScreen extends Component {
       const { type, user } = await GoogleSignIn.signInAsync();
       if (type === 'success') {
         this._syncUserWithStateAsync();
+        
       }
     } catch ({ message }) {
       alert('login: Error:' + message);
@@ -59,6 +62,12 @@ class WelcomeScreen extends Component {
       this.signInAsync();
     }
   };
+
+  dummyHandleLogin = () => {
+    console.log("inside")
+    this.props.navigation.navigate('Home')
+    // RootNavigation.navigate('Home', { userName: 'Lucy' });
+  }
   
 
   render(){
@@ -79,16 +88,11 @@ class WelcomeScreen extends Component {
           </View>
           <View style={{ height: height / 4, justifyContent: 'center',width:'60%', }}>
             <TouchableOpacity
-              onPress={this.onPress}
+              // onPress={this.onPress}
+              onPress={this.dummyHandleLogin}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.onPress}
-              style={[styles.button, styles.buttonOutline]}
-              >
-                <Text style={styles.buttonOutlineText}>Sign Up</Text>
             </TouchableOpacity>
           </View>
         </View>
